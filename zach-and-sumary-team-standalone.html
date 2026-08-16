@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zach + Sumary — Team</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@300;400;500;600&display=swap');
+
+:root{
+  --bg1:#0E0A16;
+  --bg2:#1A0F1E;
+  --bg3:#150E22;
+  --card:rgba(255,255,255,0.045);
+  --border:rgba(255,255,255,0.08);
+  --red:#FF3B5C;
+  --red-deep:#C81E45;
+  --orange:#FF7A33;
+  --orange-deep:#D9531A;
+  --blue:#3E7BFA;
+  --blue-deep:#1E4FCB;
+  --cream:#F5E9DC;
+  --muted:#B39FB0;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Poppins',sans-serif;background:radial-gradient(circle at 20% 0%,var(--bg3),var(--bg1) 55%),linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--cream);min-height:100vh;}
+.wrap{max-width:1020px;margin:0 auto;padding:32px 20px 80px;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:700;margin:0;}
+.hero{text-align:center;margin-bottom:32px;}
+.hero h1{font-size:40px;background:linear-gradient(90deg,var(--red),var(--orange),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.5px;}
+.hero p{font-family:'Playfair Display',serif;font-style:italic;color:var(--orange);font-size:17px;margin-top:8px;}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px;}
+.tab{padding:10px 18px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.03);color:var(--muted);cursor:pointer;font-size:13.5px;font-weight:500;transition:.2s;}
+.tab:hover{border-color:var(--orange);color:var(--cream);}
+.tab.active{background:linear-gradient(90deg,var(--red),var(--orange));color:#1A0A0A;box-shadow:0 4px 14px rgba(255,59,92,0.3);border-color:transparent;font-weight:600;}
+.panel{display:none;}
+.panel.active{display:block;animation:fade .35s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.card{background:var(--card);border:1px solid var(--border);border-top:4px solid transparent;border-image:linear-gradient(90deg,var(--red),var(--orange)) 1;border-image-slice:1;border-radius:16px;padding:22px 24px;margin-bottom:18px;}
+.card.c-blue{border-image:linear-gradient(90deg,var(--blue),var(--red)) 1;}
+.card.c-orange{border-image:linear-gradient(90deg,var(--orange),var(--blue)) 1;}
+.card h3{color:var(--orange);font-size:19px;margin-bottom:6px;}
+.card.c-blue h3{color:var(--blue);}
+.sub{color:var(--muted);font-size:13px;margin-bottom:14px;}
+textarea,input[type=text],input[type=date],input[type=password],select{width:100%;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;color:var(--cream);padding:10px 12px;font-family:'Poppins',sans-serif;font-size:14px;margin-bottom:10px;}
+textarea:focus,input:focus{outline:none;border-color:var(--orange);}
+textarea{min-height:64px;resize:vertical;}
+label{font-size:12.5px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500;}
+button{cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;border-radius:999px;border:none;padding:9px 18px;font-size:13.5px;transition:.2s;}
+.btn-warm{background:linear-gradient(90deg,var(--red),var(--orange));color:#1A0A0A;}
+.btn-warm:hover{filter:brightness(1.1);}
+.btn-blue{background:linear-gradient(90deg,var(--blue),var(--blue-deep));color:#fff;}
+.btn-blue:hover{filter:brightness(1.1);}
+.btn-ghost{background:transparent;border:1px solid var(--orange);color:var(--orange);}
+.btn-ghost:hover{background:rgba(255,122,51,0.12);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr;}}
+.stage-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed var(--border);}
+.stage-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.stage-name{font-weight:600;color:var(--cream);font-family:'Playfair Display',serif;font-size:16px;}
+.stage-pill{padding:6px 16px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.stage-pending{background:rgba(255,59,92,0.18);color:var(--red);}
+.stage-progress{background:rgba(255,122,51,0.2);color:var(--orange);}
+.stage-done{background:rgba(62,123,250,0.2);color:var(--blue);}
+.entry{background:rgba(0,0,0,0.2);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;padding:12px 14px;margin-bottom:10px;font-size:13.5px;}
+.entry.blue{border-left-color:var(--blue);}
+.entry .date{color:var(--orange);font-size:12px;font-weight:600;margin-bottom:4px;}
+.entry.blue .date{color:var(--blue);}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.chip{padding:7px 14px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:13px;cursor:pointer;font-weight:500;}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+.jar-block{background:rgba(0,0,0,0.18);border-radius:16px;padding:18px 20px;margin-bottom:16px;border:1px solid var(--border);}
+.jar-btn{display:block;margin:0 auto 16px;background:linear-gradient(90deg,var(--red),var(--orange));color:#1A0A0A;padding:13px 28px;font-size:14.5px;}
+.jar-result{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--orange);min-height:26px;margin-bottom:8px;}
+.lock-box{text-align:center;padding:12px 0;}
+.lock-box input{max-width:180px;margin:0 auto 10px;text-align:center;}
+.idea-card{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.idea-card.done{opacity:0.4;}
+.idea-card h4{margin:0 0 4px;color:var(--red);font-size:15px;}
+.idea-card p{margin:0;font-size:13px;color:var(--muted);}
+.week-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.week-item:last-child{border-bottom:none;}
+.week-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--orange);}
+.cal-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
+.cal-row:last-child{border-bottom:none;}
+.cal-date{color:var(--blue);font-weight:600;min-width:110px;}
+.cal-del{color:var(--red);cursor:pointer;font-size:12px;margin-left:auto;}
+.saved-note{text-align:center;font-size:12px;color:var(--blue);margin-top:6px;height:16px;font-weight:600;}
+.small{font-size:12px;color:var(--muted);}
+.msg{text-align:center;font-size:12.5px;color:var(--red);min-height:16px;margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Zach &amp; Sumary</h1>
+  <p>Our team, our home, our adventure</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div id="panels"></div>
+
+<div class="small" style="text-align:center;margin-top:20px" id="connection-status">Connecting...</div>
+
+</div>
+
+<!-- Firebase (free tier) handles saving + syncing between your two devices, now that this runs outside Claude -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+// ======= PASTE YOUR FIREBASE CONFIG HERE (see setup instructions) =======
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID"
+};
+// ==========================================================================
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const docRef = db.collection('oehlmanTeamApp').doc('sharedState');
+</script>
+<script>
+const STORAGE_KEY = 'oehlman-team-app-v2';
+const SHARED = true;
+
+let state = {
+  team: { mission: '', values: '' },
+  updates: {
+    foundation: { entries: [] },
+    us: { entries: [] },
+    trading: { entries: [] }
+  },
+  errands: {
+    visa: { label:'Visa', stage: 0, notes: '' },
+    passport: { label:'Passport', stage: 0, notes: '' },
+    property: { label:'Property in Puerto Rico', stage: 0, notes: '' },
+    extra1: { label:'', stage: 0, notes: '' },
+    extra2: { label:'', stage: 0, notes: '' },
+    extra3: { label:'', stage: 0, notes: '' }
+  },
+  daily: { entries: [], extra: [] },
+  wellness: { diet: '', gymDays: [], meditation: '', weeklyActivity: '' },
+  surpriseYard: {
+    forZach: { pin: '', ideas: [] },
+    forSumary: { pin: '', ideas: [] }
+  },
+  romancePrefs: { notes: '' },
+  weekly: {},
+  calendar: { events: [] }
+};
+
+let unlocked = { forZach:false, forSumary:false };
+
+const stageLabels = ['Pending','In progress','Done'];
+const stageClasses = ['stage-pending','stage-progress','stage-done'];
+const weekDays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const weekActs = ['Breakfast together','Exercise','Meditation','Evening walk','Dinner together','Eye-to-eye conversation','TV together','Reading','What I learned today'];
+
+async function loadState(){
+  const statusEl = document.getElementById('connection-status');
+  try{
+    const snap = await docRef.get();
+    if(snap.exists){
+      const loaded = snap.data();
+      state = deepMerge(state, loaded);
+    }
+    if(statusEl) statusEl.textContent = '';
+  }catch(e){
+    console.error(e);
+    if(statusEl) statusEl.textContent = 'Could not connect — check your Firebase config at the top of the file.';
+  }
+  render();
+}
+function deepMerge(base, extra){
+  if(typeof base !== 'object' || base===null || Array.isArray(base)) return extra===undefined?base:extra;
+  const out = Object.assign({}, base);
+  for(const k in extra){ out[k] = deepMerge(base[k], extra[k]); }
+  return out;
+}
+async function saveState(flashId){
+  try{
+    await docRef.set(state);
+    if(flashId){
+      const el = document.getElementById(flashId);
+      if(el){ el.textContent = 'Saved'; setTimeout(()=>{el.textContent='';},1400); }
+    }
+  }catch(e){
+    console.error(e);
+    const statusEl = document.getElementById('connection-status');
+    if(statusEl) statusEl.textContent = 'Save failed — check your Firebase config and internet connection.';
+  }
+}
+
+const tabDefs = [
+  {id:'team', label:'Us'},
+  {id:'updates', label:'Updates'},
+  {id:'errands', label:'Errands'},
+  {id:'daily', label:'Daily connection'},
+  {id:'wellness', label:'Wellness'},
+  {id:'surprise', label:'Surprise Yard'},
+  {id:'weekly', label:'Team week'}
+];
+
+let activeTab = 'team';
+
+function switchTab(id){
+  activeTab = id;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.id===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+id));
+}
+function renderTabs(){
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = tabDefs.map(t=>`<div class="tab${t.id===activeTab?' active':''}" data-id="${t.id}">${t.label}</div>`).join('');
+  tabsEl.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', ()=>switchTab(t.dataset.id)));
+}
+
+function renderTeam(){
+  return `
+  <div class="panel" id="panel-team">
+    <div class="card">
+      <h3>Our mission as a team</h3>
+      <div class="sub">How we want to build this, together.</div>
+      <label>Our mission</label>
+      <textarea id="team-mission" placeholder="We are a team that...">${state.team.mission}</textarea>
+      <label>Our values</label>
+      <textarea id="team-values" placeholder="Unity, honesty, adventure...">${state.team.values}</textarea>
+      <button class="btn-warm" onclick="saveTeam()">Save</button>
+      <div class="saved-note" id="team-saved"></div>
+    </div>
+  </div>`;
+}
+function saveTeam(){
+  state.team.mission = val('team-mission');
+  state.team.values = val('team-values');
+  saveState('team-saved');
+}
+
+function updateBlock(key, title, sub, cardClass, entryClass){
+  const list = state.updates[key].entries.slice().reverse().map(e=>`
+    <div class="entry ${entryClass}"><div class="date">${e.date}</div>${escapeHtml(e.text)}</div>`).join('') || '<div class="small">No entries yet.</div>';
+  return `
+  <div class="card ${cardClass}">
+    <h3>${title}</h3>
+    <div class="sub">${sub}</div>
+    <textarea id="up-${key}" placeholder="Write an update..."></textarea>
+    <button class="btn-warm" onclick="addUpdate('${key}')">Add entry</button>
+    <div class="saved-note" id="up-${key}-saved"></div>
+    <div style="margin-top:14px">${list}</div>
+  </div>`;
+}
+function renderUpdates(){
+  return `
+  <div class="panel" id="panel-updates">
+    ${updateBlock('foundation','Foundation updates','Reports, intention, and where things are headed.','c-orange','')}
+    ${updateBlock('us','Us updates','How we are, as a couple, right now.','','')}
+    ${updateBlock('trading','Trading updates','Notes from your trading classes and progress.','c-blue','blue')}
+  </div>`;
+}
+function addUpdate(key){
+  const t = val('up-'+key);
+  if(!t) return;
+  state.updates[key].entries.push({date: todayStr(), text: t});
+  saveState('up-'+key+'-saved');
+  render();
+}
+
+function renderErrands(){
+  const items = [
+    {key:'visa', fixed:true},
+    {key:'passport', fixed:true},
+    {key:'property', fixed:true},
+    {key:'extra1', fixed:false},
+    {key:'extra2', fixed:false},
+    {key:'extra3', fixed:false}
+  ];
+  const rows = items.map(it=>{
+    const d = state.errands[it.key];
+    const nameField = it.fixed
+      ? `<div class="stage-name">${d.label}</div>`
+      : `<input type="text" id="er-label-${it.key}" placeholder="Name this task" value="${escapeAttr(d.label)}" style="margin-bottom:8px;font-weight:600;">`;
+    return `
+    <div class="stage-row">
+      <div style="flex:1">
+        ${nameField}
+        <textarea style="margin-top:8px" id="er-notes-${it.key}" placeholder="Notes, next steps...">${d.notes}</textarea>
+      </div>
+      <div class="stage-pill ${stageClasses[d.stage]}" onclick="cycleStage('${it.key}')">${stageLabels[d.stage]}</div>
+    </div>`;
+  }).join('');
+  return `
+  <div class="panel" id="panel-errands">
+    <div class="card c-orange">
+      <h3>Errands and things to follow through on</h3>
+      <div class="sub">Tap the status to move it forward. The last three are yours to name.</div>
+      ${rows}
+      <button class="btn-warm" style="margin-top:12px" onclick="saveErrands()">Save</button>
+      <div class="saved-note" id="er-saved"></div>
+    </div>
+  </div>`;
+}
+function cycleStage(key){
+  state.errands[key].stage = (state.errands[key].stage + 1) % 3;
+  saveState();
+  render();
+}
+function saveErrands(){
+  Object.keys(state.errands).forEach(k=>{
+    const notesEl = document.getElementById('er-notes-'+k);
+    if(notesEl) state.errands[k].notes = notesEl.value;
+    const labelEl = document.getElementById('er-label-'+k);
+    if(labelEl) state.errands[k].label = labelEl.value;
+  });
+  saveState('er-saved');
+}
+
+function renderDaily(){
+  const entries = state.daily.entries.slice().reverse().slice(0,10).map(e=>`
+    <div class="entry">
+      <div class="date">${e.date}</div>
+      <strong>Mood:</strong> ${escapeHtml(e.mood||'-')}<br>
+      <strong>Friends:</strong> ${escapeHtml(e.friends||'-')}<br>
+      <strong>Spirit:</strong> ${escapeHtml(e.faith||'-')}<br>
+      <strong>Short-term goals:</strong> ${escapeHtml(e.goals||'-')}<br>
+      <strong>Family:</strong> ${escapeHtml(e.family||'-')}<br>
+      <strong>Concerns:</strong> ${escapeHtml(e.concerns||'-')}<br>
+      <strong>Closeness / body:</strong> ${escapeHtml(e.touch||'-')}<br>
+      <strong>Notes:</strong> ${escapeHtml(e.notes||'-')}
+    </div>`).join('') || '<div class="small">No check-ins yet. Start today.</div>';
+  const extraEntries = state.daily.extra.slice().reverse().slice(0,10).map(e=>`
+    <div class="entry blue"><div class="date">${e.date}</div>${escapeHtml(e.text)}</div>`).join('') || '<div class="small">Nothing logged here yet.</div>';
+  return `
+  <div class="panel" id="panel-daily">
+    <div class="card">
+      <h3>Daily check-in</h3>
+      <div class="sub">Talk while looking each other in the eye. Even five minutes, every day.</div>
+      <label>How are you today</label>
+      <input type="text" id="d-mood" placeholder="How you feel, where your head is at">
+      <label>Friends — did you talk to anyone this week</label>
+      <input type="text" id="d-friends">
+      <label>Spirituality / something that moved you</label>
+      <input type="text" id="d-faith">
+      <label>Short-term goals</label>
+      <input type="text" id="d-goals">
+      <label>Family</label>
+      <input type="text" id="d-family">
+      <label>Concerns</label>
+      <input type="text" id="d-concerns">
+      <label>What area do you want us to work on / closeness</label>
+      <input type="text" id="d-touch">
+      <label>Something fun, curious, or conspiracy-flavored you found</label>
+      <textarea id="d-notes" placeholder="Anything, no filter"></textarea>
+      <button class="btn-warm" onclick="addDaily()">Save today's check-in</button>
+      <div class="saved-note" id="daily-saved"></div>
+    </div>
+    <div class="card"><h3>Recent check-ins</h3>${entries}</div>
+    <div class="card c-blue">
+      <h3>Quick check-in</h3>
+      <div class="sub">A second, looser space — anything that doesn't fit above.</div>
+      <textarea id="d-extra" placeholder="Whatever's on your mind..."></textarea>
+      <button class="btn-blue" onclick="addExtraDaily()">Add</button>
+      <div class="saved-note" id="daily-extra-saved"></div>
+      <div style="margin-top:12px">${extraEntries}</div>
+    </div>
+  </div>`;
+}
+function addDaily(){
+  const e = {
+    date: todayStr(),
+    mood: val('d-mood'), friends: val('d-friends'), faith: val('d-faith'),
+    goals: val('d-goals'), family: val('d-family'), concerns: val('d-concerns'),
+    touch: val('d-touch'), notes: val('d-notes')
+  };
+  state.daily.entries.push(e);
+  saveState('daily-saved');
+  render();
+}
+function addExtraDaily(){
+  const t = val('d-extra');
+  if(!t) return;
+  state.daily.extra.push({date: todayStr(), text: t});
+  saveState('daily-extra-saved');
+  render();
+}
+
+function renderWellness(){
+  const gymChips = weekDays.map(d=>`<div class="chip ${state.wellness.gymDays.includes(d)?'on':''}" onclick="toggleGymDay('${d}')">${d}</div>`).join('');
+  return `
+  <div class="panel" id="panel-wellness">
+    <div class="grid2">
+      <div class="card c-blue">
+        <h3>Healthy eating</h3>
+        <div class="sub">What we're eating, goals, ideas.</div>
+        <textarea id="w-diet" placeholder="Our diet this week...">${state.wellness.diet}</textarea>
+      </div>
+      <div class="card c-blue">
+        <h3>Meditation and spirituality</h3>
+        <div class="sub">Silence, moments of calm.</div>
+        <textarea id="w-med" placeholder="Practice, timing, what works for Zach...">${state.wellness.meditation}</textarea>
+      </div>
+    </div>
+    <div class="card c-blue">
+      <h3>Gym together</h3>
+      <div class="sub">Mark the days that fit Zach's calendar.</div>
+      <div class="chip-row">${gymChips}</div>
+    </div>
+    <div class="card c-blue">
+      <h3>Weekly activity together</h3>
+      <div class="sub">Breakfast, exercise, meditation, walk, dinner, conversation, TV, reading — pick this week's.</div>
+      <textarea id="w-weekly" placeholder="This week we'll do...">${state.wellness.weeklyActivity}</textarea>
+    </div>
+    <button class="btn-warm" onclick="saveWellness()">Save wellness</button>
+    <div class="saved-note" id="wellness-saved"></div>
+  </div>`;
+}
+function toggleGymDay(d){
+  const i = state.wellness.gymDays.indexOf(d);
+  if(i>-1) state.wellness.gymDays.splice(i,1); else state.wellness.gymDays.push(d);
+  saveState();
+  render();
+}
+function saveWellness(){
+  state.wellness.diet = val('w-diet');
+  state.wellness.meditation = val('w-med');
+  state.wellness.weeklyActivity = val('w-weekly');
+  saveState('wellness-saved');
+}
+
+function jarBlock(jarKey, jarTitle, sub){
+  const jar = state.surpriseYard[jarKey];
+  const isUnlocked = unlocked[jarKey];
+  const hasPin = !!jar.pin;
+  let manageHtml;
+  if(!isUnlocked){
+    manageHtml = `
+    <div class="lock-box">
+      <div class="small">${hasPin ? 'Enter the PIN to manage ideas' : 'Set a PIN to protect this list'}</div>
+      <input type="password" id="pin-${jarKey}" placeholder="${hasPin?'PIN':'Create a PIN'}">
+      <div class="msg" id="pin-msg-${jarKey}"></div>
+      <button class="btn-ghost" onclick="attemptUnlock('${jarKey}')">${hasPin?'Unlock':'Set PIN and unlock'}</button>
+    </div>`;
+  }else{
+    const ideas = jar.ideas.map(i=>`
+      <div class="idea-card ${i.done?'done':''}">
+        <div><h4>${escapeHtml(i.title)}</h4><p>${escapeHtml(i.desc)}</p></div>
+        <button class="btn-ghost" onclick="toggleIdea('${jarKey}','${i.id}')">${i.done?'Reopen':'Done'}</button>
+      </div>`).join('') || '<div class="small">No ideas yet — add the first one.</div>';
+    manageHtml = `
+    <div>
+      ${ideas}
+      <label style="margin-top:10px">New idea — title</label>
+      <input type="text" id="idea-title-${jarKey}" placeholder="Ex: Surprise candlelit dinner">
+      <label>Details</label>
+      <textarea id="idea-desc-${jarKey}" placeholder="How you picture it..."></textarea>
+      <button class="btn-warm" onclick="addIdea('${jarKey}')">Add idea</button>
+      <button class="btn-ghost" style="margin-left:8px" onclick="lockJar('${jarKey}')">Lock this list</button>
+    </div>`;
+  }
+  return `
+  <div class="jar-block">
+    <h3 style="margin-bottom:4px">${jarTitle}</h3>
+    <div class="sub">${sub}</div>
+    <button class="jar-btn" onclick="pickSurprise('${jarKey}')">Pull a surprise</button>
+    <div class="jar-result" id="jar-result-${jarKey}"></div>
+    <div style="border-top:1px solid var(--border);margin-top:6px;padding-top:14px">
+      ${manageHtml}
+    </div>
+  </div>`;
+}
+function renderSurprise(){
+  return `
+  <div class="panel" id="panel-surprise">
+    <div class="card c-orange">
+      ${jarBlock('forZach','Surprise Yard — for Zach','Zach can pull a surprise. Only Sumary can see or add to the list, behind her PIN.')}
+    </div>
+    <div class="card c-blue">
+      ${jarBlock('forSumary','Surprise Yard — for Sumary','Sumary can pull a surprise. Only Zach can see or add to the list, behind his PIN.')}
+    </div>
+    <div class="card">
+      <h3>Shared romance preferences</h3>
+      <div class="sub">Not a secret — just what we both already know we love. Candles, massages, soft music, night walks.</div>
+      <textarea id="r-notes" placeholder="Free notes...">${state.romancePrefs.notes}</textarea>
+      <button class="btn-warm" onclick="saveRomancePrefs()">Save</button>
+      <div class="saved-note" id="prefs-saved"></div>
+    </div>
+  </div>`;
+}
+function attemptUnlock(jarKey){
+  const entered = val('pin-'+jarKey);
+  const jar = state.surpriseYard[jarKey];
+  const msgEl = document.getElementById('pin-msg-'+jarKey);
+  if(!jar.pin){
+    if(!entered){ msgEl.textContent = 'Type a PIN first'; return; }
+    jar.pin = entered;
+    saveState();
+    unlocked[jarKey] = true;
+    render();
+    return;
+  }
+  if(entered === jar.pin){
+    unlocked[jarKey] = true;
+    render();
+  }else{
+    msgEl.textContent = 'Incorrect PIN';
+  }
+}
+function lockJar(jarKey){
+  unlocked[jarKey] = false;
+  render();
+}
+function pickSurprise(jarKey){
+  const jar = state.surpriseYard[jarKey];
+  const pending = jar.ideas.filter(i=>!i.done);
+  const pool = pending.length ? pending : jar.ideas;
+  const resultEl = document.getElementById('jar-result-'+jarKey);
+  if(!pool.length){ resultEl.textContent = 'No surprises waiting yet'; return; }
+  const pick = pool[Math.floor(Math.random()*pool.length)];
+  resultEl.textContent = '"' + pick.title + '"';
+}
+function toggleIdea(jarKey, id){
+  const jar = state.surpriseYard[jarKey];
+  const i = jar.ideas.find(x=>x.id===id);
+  if(i){ i.done = !i.done; saveState(); render(); }
+}
+function addIdea(jarKey){
+  const t = val('idea-title-'+jarKey);
+  const d = val('idea-desc-'+jarKey);
+  if(!t) return;
+  state.surpriseYard[jarKey].ideas.push({id:'i'+Date.now(), title:t, desc:d, done:false});
+  saveState();
+  render();
+}
+function saveRomancePrefs(){
+  state.romancePrefs.notes = val('r-notes');
+  saveState('prefs-saved');
+}
+
+function renderWeekly(){
+  const wk = currentWeekKey();
+  if(!state.weekly[wk]) state.weekly[wk] = {};
+  const data = state.weekly[wk];
+  const rows = weekActs.map(act=>{
+    const checked = data[act] ? 'checked' : '';
+    return `<div class="week-item"><input type="checkbox" ${checked} onchange="toggleWeekAct('${act}')"><span>${act}</span></div>`;
+  }).join('');
+  const cal = state.calendar.events.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(ev=>`
+    <div class="cal-row"><span class="cal-date">${ev.date}</span><span>${escapeHtml(ev.note)}</span><span class="cal-del" onclick="removeCalEvent('${ev.id}')">Remove</span></div>`).join('') || '<div class="small">No dates on the shared list yet.</div>';
+  return `
+  <div class="panel" id="panel-weekly">
+    <div class="card">
+      <h3>Our team week</h3>
+      <div class="sub">Even one thing, every day. Five minutes counts.</div>
+      ${rows}
+    </div>
+    <div class="card c-blue">
+      <h3>Shared dates</h3>
+      <div class="sub">A lightweight shared calendar for surprises and plans tied to real dates. For a full synced calendar, I can help connect Google Calendar separately.</div>
+      <div class="grid2">
+        <div><label>Date</label><input type="date" id="cal-date"></div>
+        <div><label>Note</label><input type="text" id="cal-note" placeholder="What's happening"></div>
+      </div>
+      <button class="btn-blue" onclick="addCalEvent()">Add to shared dates</button>
+      <div style="margin-top:14px">${cal}</div>
+    </div>
+  </div>`;
+}
+function toggleWeekAct(act){
+  const wk = currentWeekKey();
+  if(!state.weekly[wk]) state.weekly[wk] = {};
+  state.weekly[wk][act] = !state.weekly[wk][act];
+  saveState();
+}
+function addCalEvent(){
+  const d = val('cal-date'); const n = val('cal-note');
+  if(!d || !n) return;
+  state.calendar.events.push({id:'c'+Date.now(), date:d, note:n});
+  saveState();
+  render();
+}
+function removeCalEvent(id){
+  state.calendar.events = state.calendar.events.filter(e=>e.id!==id);
+  saveState();
+  render();
+}
+
+function currentWeekKey(){
+  const d = new Date();
+  const onejan = new Date(d.getFullYear(),0,1);
+  const week = Math.ceil((((d - onejan) / 86400000) + onejan.getDay()+1)/7);
+  return d.getFullYear()+'-w'+week;
+}
+function todayStr(){
+  const d = new Date();
+  return d.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+}
+function val(id){ const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function escapeHtml(s){ return (s||'').replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+function render(){
+  renderTabs();
+  document.getElementById('panels').innerHTML =
+    renderTeam() + renderUpdates() + renderErrands() + renderDaily() + renderWellness() + renderSurprise() + renderWeekly();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+activeTab));
+}
+
+loadState();
+</script>
+</body>
+</html>
