@@ -112,17 +112,18 @@ button{cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;border-ra
 <script>
 // ======= PASTE YOUR FIREBASE CONFIG HERE (see setup instructions) =======
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyAMxnkpuLEeoSE6dEF-XkECWYHFLYjQBgo",
+  authDomain: "sumy-and-zach.firebaseapp.com",
+  projectId: "sumy-and-zach",
+  storageBucket: "sumy-and-zach.firebasestorage.app",
+  messagingSenderId: "271564650603",
+  appId: "1:271564650603:web:12a379fadd330277c9992e"
 };
 // ==========================================================================
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+db.settings({ experimentalForceLongPolling: true, merge: true });
 const docRef = db.collection('oehlmanTeamApp').doc('sharedState');
 </script>
 <script>
